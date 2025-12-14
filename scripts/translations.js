@@ -256,7 +256,7 @@ const Lang = {
 
         // Update page title
         document.title = this.current === 'mr'
-            ? 'सन्मती सेल्स | प्रीमियम टूल्स आणि हार्डवेअर'
+            ? 'सन्मती सेल्स | प्रीमियम हार्डवेअर आणि सॅनेटरी वेअर'
             : 'Sanmati Sales | Premium Tools & Hardware';
     }
 };
