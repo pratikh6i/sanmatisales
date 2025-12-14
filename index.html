@@ -1,58 +1,460 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Sanmati Sales</title>
-    <!-- Using the 'Poppins' font for a stylish, modern, and clean look -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanmati Sales | Premium Tools & Hardware</title>
+    <meta name="description"
+        content="Sanmati Sales - Your trusted destination for quality tools and hardware. Home delivery available across Maharashtra.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Color Thief Library for dynamic background effect -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
 </head>
+
 <body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-container">
+                <a href="./" class="logo">
+                    <div class="logo-icon" id="logoIcon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                        </svg>
+                    </div>
+                    <span class="logo-text" data-i18n="brandName">Sanmati Sales</span>
+                </a>
 
-    <header class="header" id="main-header">
-        <div class="brand-logo">
-            <!-- Elegant SVG Logo with a traditional touch -->
-            <svg width="40" height="40" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M64 4C31.52 4 4 31.52 4 64C4 89.2 18.24 110.88 39.4 119.44C42.84 120.84 45.44 118.44 44.44 115.2C40.6 102.6 38 88.36 38 73.16C38 49 52.6 30.2 74.2 26.8C94.2 23.6 112 38.48 112 59.8C112 85.08 96.2 108.48 74.4 115.2C71.2 116.24 73.6 118.84 75 115.4C90.2 92.4 96 79 90.4 51.6C85.6 28.2 64 20 64 20" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M64 124C79.464 124 92 111.464 92 96C92 80.536 79.464 68 64 68C48.536 68 36 80.536 36 96C36 111.464 48.536 124 64 124Z" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="brand-title">Sanmati Sales</span>
-        </div>
-    </header>
+                <nav class="nav">
+                    <a href="#products" class="nav-link" data-i18n="navProducts">Products</a>
+                    <a href="#customers" class="nav-link" data-i18n="navCoverage">Coverage</a>
+                    <a href="#contact" class="nav-link" data-i18n="navContact">Contact</a>
 
-    <main id="gallery-container" class="gallery-container">
-        <!-- The intro, products, and final card will be dynamically inserted here by script.js -->
-        <div class="status-message" id="statusMessage">
-            <div class="loader"></div>
-            <p>Loading the Products...</p>
-        </div>
-    </main>
+                    <!-- Language Toggle -->
+                    <button class="lang-toggle" id="langToggle" title="Switch Language">मराठी</button>
 
-    <!-- Full-screen modal for viewing media -->
-    <div id="fullscreen-modal" class="fullscreen-modal">
-        <span class="close-button">&times;</span>
-        <div class="modal-content" id="modal-content"></div>
-    </div>
-    
-    <footer class="footer">
-        <div class="footer-content">
-            <h3 class="footer-title">Sanmati Sales</h3>
-            <p class="footer-address">Kumbhoj, Maharashtra, 416111</p>
-            <div class="footer-contact">
-                <span>Email: sanmatisales9027@gmail.com</span>
-                <span>Phone: (+91) 85305 15022</span>
+                    <!-- Admin Dropdown -->
+                    <div class="admin-dropdown" id="adminDropdown">
+                        <button class="admin-trigger" id="adminTrigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+                            </svg>
+                        </button>
+                        <div class="admin-menu">
+                            <button class="admin-menu-item" id="openAdminBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7" />
+                                    <rect x="14" y="3" width="7" height="7" />
+                                    <rect x="14" y="14" width="7" height="7" />
+                                    <rect x="3" y="14" width="7" height="7" />
+                                </svg>
+                                <span data-i18n="adminPortal">Admin Portal</span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
             </div>
-            <p class="footer-copyright">&copy; 2025 Sanmati Sales. All Rights Reserved.</p>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🚚</span>
+                    <span data-i18n="heroBadge">FREE Home Delivery Available</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-line" data-i18n="heroTitle1">Premium Quality</span>
+                    <span class="title-line gradient" data-i18n="heroTitle2">Tools & Hardware</span>
+                </h1>
+                <p class="hero-subtitle" data-i18n="heroSubtitle">
+                    Trusted by professionals across Maharashtra. Experience excellence in every tool.
+                </p>
+                <div class="hero-actions">
+                    <a href="#products" class="btn btn-primary">
+                        <span data-i18n="heroExplore">Explore Collection</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </a>
+                    <a href="https://wa.me/918530515022" target="_blank" class="btn btn-whatsapp">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        <span data-i18n="heroChat">Chat with Us</span>
+                    </a>
+                </div>
+                <p class="hero-phone">📞 +91 85305 15022</p>
+            </div>
+            <div class="hero-scroll">
+                <div class="scroll-indicator">
+                    <div class="scroll-dot"></div>
+                </div>
+                <span data-i18n="scrollToExplore">Scroll to explore</span>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products" id="products">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="productsTag">Our Products</span>
+                <h2 class="section-title" data-i18n="productsTitle">Curated for Excellence</h2>
+                <p class="section-subtitle" data-i18n="productsSubtitle">Every tool in our collection is hand-picked for
+                    quality, durability, and precision.</p>
+            </div>
+
+            <div class="products-grid" id="productsGrid"></div>
+
+            <div class="loading-state" id="loadingState">
+                <div class="loader">
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                </div>
+                <p data-i18n="loadingProducts">Loading products...</p>
+            </div>
+
+            <div class="empty-state hidden" id="emptyState">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <p data-i18n="noProducts">No products available yet.</p>
+            </div>
+        </section>
+
+        <!-- Trust Section -->
+        <section class="trust">
+            <div class="trust-container">
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="qualityAssured">Quality Assured</h3>
+                    <p data-i18n="qualityDesc">Every product meets our rigorous quality standards</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13" />
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                            <circle cx="5.5" cy="18.5" r="2.5" />
+                            <circle cx="18.5" cy="18.5" r="2.5" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="freeDeliveryTitle">Free Delivery</h3>
+                    <p data-i18n="freeDeliveryDesc">Complimentary home delivery across the region</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="trustedService">Trusted Service</h3>
+                    <p data-i18n="trustedServiceDesc">Proudly serving satisfied customers</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Customers Section -->
+        <section class="customers" id="customers">
+            <div class="customers-container">
+                <div class="customers-header">
+                    <span class="section-tag" data-i18n="coverageTag">Our Reach</span>
+                    <h2 class="section-title" data-i18n="coverageTitle">Trusted Across the Region</h2>
+                    <p class="section-subtitle" data-i18n="coverageSubtitle">Serving 15+ locations around Kolhapur,
+                        Sangli, and Miraj</p>
+                </div>
+
+                <div class="customers-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label" data-i18n="villages">Villages & Cities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">105+</div>
+                        <div class="stat-label" data-i18n="happyCustomers">Happy Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label" data-i18n="qualityProducts">Quality Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label" data-i18n="whatsappSupport">WhatsApp Support</div>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <div class="map-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <h3 data-i18n="deliveryArea">Our Delivery Coverage</h3>
+                    </div>
+                    <div id="coverage-map"></div>
+                    <div class="map-footer">
+                        <span class="city-tag" data-i18n="kolhapur">Kolhapur</span>
+                        <span class="city-tag" data-i18n="sangli">Sangli</span>
+                        <span class="city-tag" data-i18n="miraj">Miraj</span>
+                        <span class="city-tag" data-i18n="ichalkaranji">Ichalkaranji</span>
+                        <span class="city-tag" data-i18n="hatkanangle">Hatkanangle</span>
+                        <span class="city-tag" data-i18n="kodoli">Kodoli</span>
+                        <span class="city-tag" data-i18n="warna">Warna</span>
+                        <span class="city-tag" data-i18n="jaysingpur">Jaysingpur</span>
+                        <span class="city-tag" data-i18n="kumbhoj">Kumbhoj</span>
+                        <span class="city-tag" data-i18n="more">+ More</span>
+                    </div>
+                </div>
+
+                <div class="trusted-by">
+                    <h3 class="trusted-title" data-i18n="trustedBy">Trusted By</h3>
+                    <div class="trusted-grid">
+                        <div class="trusted-card">
+                            <span class="trusted-emoji">🏗️</span>
+                            <span class="trusted-name" data-i18n="builders">Builders</span>
+                        </div>
+                        <div class="trusted-card">
+                            <span class="trusted-emoji">🏭</span>
+                            <span class="trusted-name" data-i18n="factories">Factories</span>
+                        </div>
+                        <div class="trusted-card">
+                            <span class="trusted-emoji">🏠</span>
+                            <span class="trusted-name" data-i18n="housingSocieties">Housing Societies</span>
+                        </div>
+                        <div class="trusted-card">
+                            <span class="trusted-emoji">👷</span>
+                            <span class="trusted-name" data-i18n="contractors">Contractors</span>
+                        </div>
+                        <div class="trusted-card">
+                            <span class="trusted-emoji">🔧</span>
+                            <span class="trusted-name" data-i18n="workshops">Workshops</span>
+                        </div>
+                        <div class="trusted-card">
+                            <span class="trusted-emoji">🏪</span>
+                            <span class="trusted-name" data-i18n="retailers">Retail Stores</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer" id="contact">
+            <div class="footer-wave">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path
+                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z">
+                    </path>
+                </svg>
+            </div>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo" id="footerLogo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="brandName">Sanmati Sales</h3>
+                    <p class="tagline" data-i18n="footerTagline">Quality tools, trusted service</p>
+                </div>
+
+                <div class="footer-info">
+                    <div class="footer-section">
+                        <h4 data-i18n="contactTitle">Contact</h4>
+                        <a href="https://wa.me/918530515022" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
+                            </svg>
+                            (+91) 85305 15022
+                        </a>
+                        <a href="mailto:sanmatisales9027@gmail.com">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2" />
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                            </svg>
+                            sanmatisales9027@gmail.com
+                        </a>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4 data-i18n="addressTitle">Address</h4>
+                        <p>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            <span data-i18n="address">Kumbhoj, Maharashtra 416111</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer-delivery">
+                    <span>🚚</span>
+                    <span data-i18n="heroBadge">FREE Home Delivery Available</span>
+                </div>
+
+                <div class="footer-bottom">
+                    <p data-i18n="copyright">© 2025 Sanmati Sales. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="modal-content">
+                <div class="modal-media" id="modalMedia"></div>
+                <div class="modal-info">
+                    <h2 class="modal-title" id="modalTitle">Product Name</h2>
+                    <div class="modal-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13" />
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                            <circle cx="5.5" cy="18.5" r="2.5" />
+                            <circle cx="18.5" cy="18.5" r="2.5" />
+                        </svg>
+                        <span data-i18n="freeHomeDelivery">Free Home Delivery</span>
+                    </div>
+                    <button class="btn btn-whatsapp" id="modalWhatsapp">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
+                        </svg>
+                        <span data-i18n="enquireWhatsapp">Enquire on WhatsApp</span>
+                    </button>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- Admin Panel -->
+    <div class="admin-panel hidden" id="adminPanel">
+        <div class="admin-header">
+            <button class="btn btn-ghost" id="adminClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width:20px;height:20px;">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 data-i18n="adminPanel">Admin Panel</h2>
+            <button class="btn btn-ghost" id="adminLogout">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width:18px;height:18px;">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                <span data-i18n="logout">Logout</span>
+            </button>
+        </div>
 
+        <div class="admin-content">
+            <div class="admin-login" id="adminLogin">
+                <div class="login-card">
+                    <h3 data-i18n="ownerLogin">Store Owner Login</h3>
+                    <p data-i18n="loginDesc">Enter your GitHub Personal Access Token to manage products.</p>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="githubToken" data-i18n="githubToken">GitHub Token</label>
+                            <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" required>
+                            <small><span data-i18n="tokenHelp">Token needs 'repo' scope.</span> <a
+                                    href="https://github.com/settings/tokens/new?scopes=repo" target="_blank"
+                                    data-i18n="createHere">Create one here</a></small>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">
+                            <span data-i18n="login">Login</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="admin-manager hidden" id="adminManager">
+                <div class="admin-toolbar">
+                    <button class="btn btn-reorder" id="reorderToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M3 12h18M3 18h18" />
+                        </svg>
+                        <span data-i18n="reorderImages">Reorder Images</span>
+                    </button>
+                    <button class="btn btn-trusted" id="trustedToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <span>Hide "Trusted By"</span>
+                    </button>
+                </div>
+
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                    </div>
+                    <p><span data-i18n="dragDrop">Drag & drop images here, or</span> <span
+                            data-i18n="browse">browse</span></p>
+                    <input type="file" id="fileInput" accept="image/*" multiple hidden>
+                </div>
+
+                <div class="upload-progress hidden" id="uploadProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText" data-i18n="uploading">Uploading...</p>
+                    <button class="btn btn-cancel" id="cancelUpload">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6 6 18M6 6l12 12" />
+                        </svg>
+                        <span>Cancel</span>
+                    </button>
+                </div>
+
+                <div class="images-grid" id="imagesGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+    <!-- Scripts -->
+    <script src="scripts/translations.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/github.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/admin.js"></script>
 </body>
+
 </html>
